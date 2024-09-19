@@ -14,15 +14,15 @@ pipeline {
         docker { image 'node:16-alpine' }
       }
       steps {
-        sh 'node --version'
-      }
-    }
-    stage('Data_Base'){
-      agent {
-        docker {image 'mysql:latest'}
-      }
-      steps {
-        sh 'mysql --version'
+        script {
+          // Install dependencies and start the Node.js app
+          sh '''
+            npm install
+            npm start &
+            sleep 5
+            curl http://localhost:3000
+          '''
+        }
       }
     }
   }
